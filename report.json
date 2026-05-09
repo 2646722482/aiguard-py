@@ -1,0 +1,44 @@
+[
+  {
+    "severity": "高危",
+    "description": "命令注入 - 第7行",
+    "cwe": "CWE-78（OS命令注入）",
+    "problem": "使用os.system()直接拼接用户输入，攻击者可通过filename参数注入恶意命令，如传入\"; rm -rf /\"将导致服务器文件被删除。",
+    "suggestion": "使用subprocess.run()并传递参数列表，避免shell拼接。"
+  },
+  {
+    "severity": "高危",
+    "description": "shell=True 危险 - 第11行",
+    "cwe": "CWE-78（OS命令注入）",
+    "problem": "subprocess.call()使用shell=True且直接拼接用户输入，攻击者可通过cmd参数注入任意系统命令，如传入\"ls; cat /etc/passwd\"。",
+    "suggestion": "移除shell=True，使用参数列表形式传递命令。"
+  },
+  {
+    "severity": "高危",
+    "description": "pickle反序列化 - 第15行",
+    "cwe": "CWE-502（不可信数据的反序列化）",
+    "problem": "pickle.loads()直接反序列化用户提供的数据，攻击者可构造恶意pickle数据执行任意代码，导致远程代码执行。",
+    "suggestion": "使用安全的序列化格式如JSON，或对pickle数据来源进行严格验证。"
+  },
+  {
+    "severity": "高危",
+    "description": "SQL注入 - 第20行",
+    "cwe": "CWE-89（SQL注入）",
+    "problem": "使用f-string直接拼接用户输入到SQL查询，攻击者可通过name参数注入恶意SQL，如传入\"' OR '1'='1\"可绕过认证或窃取数据。",
+    "suggestion": "使用参数化查询，将用户输入作为参数传递。"
+  },
+  {
+    "severity": "中危",
+    "description": "硬编码密码 - 第25行",
+    "cwe": "CWE-798（硬编码凭据）",
+    "problem": "密码\"admin123\"直接硬编码在代码中，攻击者可通过反编译或源码泄露获取密码，且所有部署实例使用相同密码。",
+    "suggestion": "使用环境变量或配置文件存储密码，并进行哈希处理。"
+  },
+  {
+    "severity": "高危",
+    "description": "eval执行用户输入 - 第30行",
+    "cwe": "CWE-95（动态代码评估）",
+    "problem": "eval()直接执行用户提供的表达式，攻击者可通过expr参数执行任意Python代码，如传入\"__import__('os').system('rm -rf /')\"。",
+    "suggestion": "使用安全的数学表达式解析库如ast.literal_eval()，或限制允许的操作。"
+  }
+]

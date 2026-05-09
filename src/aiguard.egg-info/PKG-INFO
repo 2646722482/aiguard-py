@@ -1,0 +1,28 @@
+Metadata-Version: 2.4
+Name: aiguard
+Version: 0.1.0
+Summary: AI驱动的Python代码安全审计工具
+Home-page: https://github.com/你的用户名/aiguard
+Author: 你的名字
+Author-email: 烽桐数字 <15393612830@139.com>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openai>=1.0.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# aiguard
+
+AI驱动的Python代码安全审计工具。一键扫描Python代码中的安全漏洞。
+
+## 安装
+
+```bash
+pip install aiguard

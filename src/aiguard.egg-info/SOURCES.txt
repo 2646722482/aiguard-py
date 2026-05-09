@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+src/aiguard/__init__.py
+src/aiguard/cli.py
+src/aiguard.egg-info/PKG-INFO
+src/aiguard.egg-info/SOURCES.txt
+src/aiguard.egg-info/dependency_links.txt
+src/aiguard.egg-info/entry_points.txt
+src/aiguard.egg-info/requires.txt
+src/aiguard.egg-info/top_level.txt

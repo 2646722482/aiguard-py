@@ -1,0 +1,20 @@
+# aiguard-py
+
+AI驱动的Python代码安全审计工具
+
+[![PyPI version](https://badge.fury.io/py/aiguard-py.svg)](https://pypi.org/project/aiguard-py/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
+## 功能特点
+
+- 🔍 **AI驱动**：基于大语言模型，精准识别安全漏洞
+- 📊 **CWE标准**：每条漏洞标注CWE编号，符合行业标准
+- 💡 **修复建议**：提供具体的代码修改方案
+- 📁 **批量扫描**：支持扫描整个目录
+- 📄 **多种报告**：支持JSON、HTML格式输出
+- 🔇 **静默模式**：适合CI/CD集成
+
+## 安装
+
+```bash
+pip install aiguard-py

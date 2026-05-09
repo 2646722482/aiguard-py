@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>代码审计报告 - test_multi.py</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .summary { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        .critical { color: #d32f2f; }
+        .medium { color: #fbc02d; }
+        .low { color: #388e3c; }
+        .issue { border: 1px solid #ddd; margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .cwe { font-family: monospace; color: #666; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 代码审计报告</h1>
+    <div class="summary">
+        <strong>文件:</strong> test_multi.py<br>
+        <strong>扫描时间:</strong> 2026-05-10 00:49:01<br>
+        <strong>漏洞总数:</strong> 6
+    </div>
+
+    <div class="issue">
+        <h3 class="critical">[高危] 命令注入 - 第7行</h3>
+        <p><strong>CWE:</strong> <span class="cwe">CWE-78（OS命令注入）</span></p>
+        <p><strong>问题描述:</strong> 使用os.system直接拼接用户输入执行系统命令，攻击者可通过filename参数注入恶意命令（如传入"; rm -rf /"），导致任意命令执行。</p>
+        <p><strong>修复建议:</strong></p>
+        <pre>使用subprocess.run替代，并将filename作为参数列表传递，避免shell解释。</pre>
+    </div>
+
+    <div class="issue">
+        <h3 class="critical">[高危] 命令注入（shell=True） - 第11行</h3>
+        <p><strong>CWE:</strong> <span class="cwe">CWE-78（OS命令注入）</span></p>
+        <p><strong>问题描述:</strong> subprocess.call启用shell=True且直接拼接用户输入，攻击者可通过cmd参数注入任意命令（如传入"ls; cat /etc/passwd"），导致命令执行。</p>
+        <p><strong>修复建议:</strong></p>
+        <pre>移除shell=True，使用参数列表传递命令。</pre>
+    </div>
+
+    <div class="issue">
+        <h3 class="critical">[高危] pickle反序列化 - 第15行</h3>
+        <p><strong>CWE:</strong> <span class="cwe">CWE-502（不可信数据的反序列化）</span></p>
+        <p><strong>问题描述:</strong> 使用pickle.loads直接反序列化用户输入，攻击者可构造恶意pickle数据执行任意代码（如通过__reduce__方法）。</p>
+        <p><strong>修复建议:</strong></p>
+        <pre>避免使用pickle处理不可信数据，改用安全的序列化格式（如JSON）。</pre>
+    </div>
+
+    <div class="issue">
+        <h3 class="critical">[高危] SQL注入 - 第20行</h3>
+        <p><strong>CWE:</strong> <span class="cwe">CWE-89（SQL注入）</span></p>
+        <p><strong>问题描述:</strong> 使用f-string直接拼接用户输入到SQL查询，攻击者可通过name参数注入SQL语句（如传入"' OR 1=1 --"），导致数据泄露或篡改。</p>
+        <p><strong>修复建议:</strong></p>
+        <pre>使用参数化查询（占位符?）。</pre>
+    </div>
+
+    <div class="issue">
+        <h3 class="medium">[中危] 硬编码密码 - 第26行</h3>
+        <p><strong>CWE:</strong> <span class="cwe">CWE-798（硬编码凭证）</span></p>
+        <p><strong>问题描述:</strong> 密码"admin123"直接硬编码在代码中，攻击者可通过反编译或源码泄露获取密码，导致未授权访问。</p>
+        <p><strong>修复建议:</strong></p>
+        <pre>使用环境变量或安全配置存储密码，并进行哈希处理。</pre>
+    </div>
+
+    <div class="issue">
+        <h3 class="critical">[高危] eval执行用户输入 - 第31行</h3>
+        <p><strong>CWE:</strong> <span class="cwe">CWE-95（动态代码评估）</span></p>
+        <p><strong>问题描述:</strong> 使用eval直接执行用户输入，攻击者可传入任意Python表达式（如"__import__('os').system('rm -rf /')"），导致任意代码执行。</p>
+        <p><strong>修复建议:</strong></p>
+        <pre>使用安全的数学表达式解析库（如ast.literal_eval）或限制输入格式。</pre>
+    </div>
+
+</body>
+</html>
