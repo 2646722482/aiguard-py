@@ -1,20 +1,47 @@
 # aiguard-py
 
-AI驱动的Python代码安全审计工具
+> 一行命令安装，一行命令审计 Python 代码安全漏洞
 
-[![PyPI version](https://badge.fury.io/py/aiguard-py.svg)](https://pypi.org/project/aiguard-py/)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+AI 驱动的代码审计工具，识别 **SQL注入、命令注入、硬编码密码** 等常见漏洞，每条带 **CWE 编号** 和 **可执行的修复代码示例**。
 
-## 功能特点
+[![PyPI version](https://img.shields.io/pypi/v/aiguard-py.svg)](https://pypi.org/project/aiguard-py/)
+[![Python versions](https://img.shields.io/pypi/pyversions/aiguard-py.svg)](https://pypi.org/project/aiguard-py/)
+[![License](https://img.shields.io/github/license/2646722482/aiguard-py.svg)](https://github.com/2646722482/aiguard-py/blob/main/LICENSE)
 
-- 🔍 **AI驱动**：基于大语言模型，精准识别安全漏洞
-- 📊 **CWE标准**：每条漏洞标注CWE编号，符合行业标准
-- 💡 **修复建议**：提供具体的代码修改方案
-- 📁 **批量扫描**：支持扫描整个目录
-- 📄 **多种报告**：支持JSON、HTML格式输出
-- 🔇 **静默模式**：适合CI/CD集成
+---
 
-## 安装
+## 🚀 快速开始
 
 ```bash
+# 1. 安装
 pip install aiguard-py
+
+# 2. 审计单个文件
+aiguard test.py
+
+# 3. 批量扫描整个项目
+aiguard ./src
+
+# 4. 生成 HTML 报告
+aiguard test.py --output report.html
+```
+
+**输出示例：**
+
+```
+[高危] SQL注入 - 第20行
+  CWE: CWE-89
+  问题: 使用 f-string 拼接 SQL 查询，攻击者可注入恶意代码
+  修复建议: 使用参数化查询
+  ---
+  错误写法: cursor.execute(f"SELECT * FROM users WHERE name = '{name}'")
+  正确写法: cursor.execute("SELECT * FROM users WHERE name = ?", (name,))
+
+[高危] 命令注入 - 第7行
+  CWE: CWE-78
+  问题: os.system() 直接拼接用户输入
+  修复建议: 使用 subprocess.run() 传递参数列表
+  ---
+  错误写法: os.system("rm -rf " + filename)
+  正确写法: subprocess.run(["rm", "-rf", filename])
+```
