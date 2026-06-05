@@ -8,10 +8,15 @@ import argparse
 import json
 from pathlib import Path
 from openai import OpenAI
+import os
+from dotenv import load_dotenv
+
+# 加载 .env 文件中的环境变量
+load_dotenv()
 
 # 配置AI客户端
 client = OpenAI(
-    api_key="sk-67310863a7e14ce1a9a3d1effc3b99fc",
+    api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url="https://api.deepseek.com/v1"
 )
 
@@ -244,7 +249,7 @@ def main():
     parser.add_argument("--output", "-o", help="输出报告文件路径（支持 .json 或 .html）")
     parser.add_argument("--format", "-f", choices=["json", "html"], help="输出格式（与 --output 配合使用）")
     parser.add_argument("--quiet", "-q", action="store_true", help="静默模式，只输出最终结果")
-    parser.add_argument("--version", action="version", version="aiguard 0.4.0")
+    parser.add_argument("--version", action="version", version="aiguard 0.5.0")
     args = parser.parse_args()
 
     target_path = Path(args.target)
